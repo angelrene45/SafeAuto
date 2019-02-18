@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "447119280030",
+    "firebase_url": "https://safeauto-65aa8.firebaseio.com",
+    "project_id": "safeauto-65aa8",
+    "storage_bucket": "safeauto-65aa8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:447119280030:android:d1ea4c80e3a8dc14",
+        "android_client_info": {
+          "package_name": "com.example.safeauto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "447119280030-o10fi3celmq3sbcb174pgbcggl13ko7f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.safeauto",
+            "certificate_hash": "139a833a655d5e178e713aadc80ef0fb769d53ed"
+          }
+        },
+        {
+          "client_id": "447119280030-j5cr0jpp4f21ss5hg0gp6okem3g1q7e5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfCsDH0z9_G64U-FgA6TEZFeiWAud_yfE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "447119280030-j5cr0jpp4f21ss5hg0gp6okem3g1q7e5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

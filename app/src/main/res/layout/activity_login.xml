@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerInParent="true"
-
         >
 
         <Button
@@ -36,17 +35,18 @@
             android:id="@+id/button_crear_cuenta"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_alignBottom="@+id/button_iniciarsesion"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="0dp"
             android:background="@drawable/ripple_effect"
             android:drawableStart="@drawable/ic_account_add"
-            android:paddingEnd="20dp"
             android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:text="@string/login_email"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:textSize="14sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
 
 
