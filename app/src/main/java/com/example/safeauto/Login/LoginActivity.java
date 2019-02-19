@@ -1,9 +1,11 @@
 package com.example.safeauto.Login;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
 
+import com.example.safeauto.MainActivity;
 import com.example.safeauto.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -16,5 +18,6 @@ public class LoginActivity extends AppCompatActivity {
         /*Linea que nos ayuda a que el background ocupe toda la pantalla incluyendo statusbar  */
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
+        startActivity(new Intent(this, MainActivity.class));
     }
 }
