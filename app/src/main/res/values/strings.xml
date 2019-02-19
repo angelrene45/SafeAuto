@@ -3,4 +3,15 @@
     <!-- LoginActivity -->
     <string name="login_email">Iniciar sesión con e-mail</string>
     <string name="login_create_email">Crear una cuenta con email</string>
+    <!-- Navigation Drawer -->
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <!-- LoginActivity -->
+    <string name="profile_public_info">Datos publicos</string>
+    <string name="profile_update">Actualizar</string>
 </resources>
