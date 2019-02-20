@@ -17,11 +17,17 @@
         android:roundIcon="@drawable/ic_splash"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Client.ProfileActivity"></activity>
+        <activity android:name=".CamaraActivity"></activity>
+        <activity
+            android:name=".GaleriaActivity"
+            android:label="@string/title_activity_galeria"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".LocalizarActivity" />
+        <activity android:name=".Client.ProfileActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.Base" />
         <activity
             android:name=".Login.LoginActivity"
             android:theme="@style/Splashscreen">
