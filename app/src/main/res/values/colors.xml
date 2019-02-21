@@ -5,6 +5,8 @@
     <color name="colorAccent">#E91E1E</color>
     <color name="colorBlack">#ED2C2929</color>
 
+    <color name="colorDefaultWhite">#FAFAFA</color>
+
     <color name="colorLoginAndPassword">#0473f1</color>
     <color name="colorCreateAccount">#f9e61822</color>
     <color name="bluedark">#2f333f</color>

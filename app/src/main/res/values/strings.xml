@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">SafeAuto</string>
+    <!--Botton Navigation Drawer -->
+    <string name="title_home">Home</string>
+    <string name="title_location">GPS</string>
+    <string name="title_camera">Camara</string>
+    <string name="title_calls">Llamadas</string>
+    <string name="title_gallery">Galeria</string>
     <!-- LoginActivity -->
     <string name="login_email">Iniciar sesión con e-mail</string>
     <string name="login_create_email">Crear una cuenta con email</string>
