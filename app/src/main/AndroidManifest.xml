@@ -17,7 +17,16 @@
         android:roundIcon="@drawable/ic_splash"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Client.ProfileActivity"></activity>
+        <service
+            android:name=".FcmMessagingService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".Client.ProfileActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
