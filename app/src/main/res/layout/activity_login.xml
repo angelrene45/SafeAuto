@@ -3,55 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login.LoginActivity"
+    android:id="@+id/content_login"
     android:background="@color/colorPrimaryDark"
-    >
-
-
-    <LinearLayout
-        android:layout_width="330dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerInParent="true"
-        >
-
-        <Button
-            android:id="@+id/button_iniciarsesion"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/colorLoginAndPassword"
-            android:drawableStart="@drawable/ic_account"
-            android:paddingEnd="20dp"
-            android:paddingStart="20dp"
-            android:text="@string/login_email"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            />
-
-        <Button
-            android:id="@+id/button_crear_cuenta"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignBottom="@+id/button_iniciarsesion"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="0dp"
-            android:background="@drawable/ripple_effect"
-            android:drawableStart="@drawable/ic_account_add"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:text="@string/login_email"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+    tools:context=".LoginActivity">
 
 
 
-
-
-    </LinearLayout>
 
 </RelativeLayout>

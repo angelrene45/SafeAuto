@@ -21,7 +21,25 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="colorPrimary">#F5F5F5</item>
+        <!-- color Status Bar -->
+        <item name="colorPrimaryDark">#F5F5F5</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
     </style>
+
+    <style name="AppTheme.NoActionBarMainActivity">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+    </style>
+
+
+
 
 
 </resources>
