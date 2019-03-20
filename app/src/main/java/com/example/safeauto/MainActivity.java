@@ -6,22 +6,21 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.safeauto.Client.ProfileActivity;
+import com.example.safeauto.MainFragments.CallsFragment;
+import com.example.safeauto.MainFragments.CameraFragment;
+import com.example.safeauto.MainFragments.GalleryFragment;
+import com.example.safeauto.MainFragments.GpsFragment;
+import com.example.safeauto.MainFragments.HomeFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -32,12 +31,15 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
-    //temas de las notificaciones
+    public static  final String TAG = "MainActivity";
+    //Temas de las notificaciones
     private static final String SP_TOPICS = "sharedPreferencesTopics";
     private Set<String> mTopicsSet;
     private SharedPreferences mSharedPreferences;
 
     private TextView mTextMessage;
+
+    private Fragment fragment;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -46,29 +48,43 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
+                    fragment = new HomeFragment();
+                    replaceFragment(fragment);
                     return true;
                 case R.id.navigation_gps:
-                    mTextMessage.setText(R.string.title_location);
+                    fragment = new GpsFragment();
+                    replaceFragment(fragment);
                     return true;
                 case R.id.navigation_calls:
-                    mTextMessage.setText("Llamadas");
+                    fragment = new CallsFragment();
+                    replaceFragment(fragment);
                     return true;
                 case R.id.navigation_camera:
-                    mTextMessage.setText("Camara");
+                    fragment = new CameraFragment();
+                    replaceFragment(fragment);
                     return true;
                 case R.id.navigation_gallery:
-                    mTextMessage.setText("Galeria");
+                    fragment = new GalleryFragment();
+                    replaceFragment(fragment);
                     return true;
             }
             return false;
         }
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Configuracion del toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setTitle(" " +getString(R.string.app_name));
+        toolbar.setLogo(R.drawable.ic_car);
+
 
         //config SharedPreferences
         configSharedPreferences();
@@ -85,7 +101,23 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("tokenId",task.getResult().getToken());
                     }
                 });
+
+        //Mostramos el fragment Home
+        fragment = new HomeFragment();
+        replaceFragment(fragment);
     }
+
+
+    //investigar como se hace con java para la recuperacion de estados de un fragment
+    /*https://medium.com/orbismobile/navegando-entre-fragmentos-sin-perder-su-estado-android-febc7c2b16a7  */
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.container,fragment);
+        //ft.addToBackStack(null);
+        ft.commit();
+    }
+
 
     private void configSharedPreferences() {
 
@@ -118,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Toast.makeText(getApplicationContext(),"Settings", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getApplicationContext(),SettingsActivity.class));
             return true;
         }
 

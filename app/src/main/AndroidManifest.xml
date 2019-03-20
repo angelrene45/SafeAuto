@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,6 +18,9 @@
         android:roundIcon="@drawable/ic_splash"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".SettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <service
             android:name=".FcmMessagingService"
             android:enabled="true"
@@ -26,13 +30,12 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".Client.ProfileActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBarMainActivity" />
         <activity
-            android:name=".Login.LoginActivity"
+            android:name=".LoginActivity"
             android:theme="@style/Splashscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
