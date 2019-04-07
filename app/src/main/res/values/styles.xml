@@ -35,8 +35,26 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
     </style>
+
+    <!-- AuthUI Style Background-->
+    <style name="AuthUITheme" parent="FirebaseUI">
+        <item name="android:windowBackground">@drawable/fondologin</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+
+        <item name="colorControlNormal">@color/colorDefaultWhite</item>
+        <item name="colorControlActivated">@color/colorDefaultWhite</item>
+        <item name="colorControlHighlight">@color/colorDefaultWhite</item>
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+
 
 
 

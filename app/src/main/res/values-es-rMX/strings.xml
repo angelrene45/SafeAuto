@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="facebook_application_id" translatable="false">2164791903609259</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb2164791903609259</string>
+    <string name="app_name">SafeAuto</string>
+    <string name="title_settings">Configuraciones</string>
+    <!--Notification service -->
+    <string name="normal_channel_id" translatable="false">channel.id.notification.normal</string>
+    <string name="normal_channel_name" translatable="false">Alerta normal</string>
+    <!--Botton Navigation Drawer -->
+    <string name="title_home">Inicio</string>
+    <string name="title_location">GPS</string>
+    <string name="title_camera">Cámara</string>
+    <string name="title_calls">Llamadas</string>
+    <string name="title_gallery">Galeria</string>
+
+    <!-- LoginActivity -->
+    <string name="profile_public_info">Datos publicos</string>
+    <string name="profile_update">Actualizar</string>
+    <string name="txt_name">Nombre</string>
+    <string name="txt_lastname">Apellidos</string>
+    <string name="txt_phone">Telefono</string>
+    <string name="txt_model_car">Modelo del Vehiculo</string>
+    <string name="txt_plaque">Placas</string>
+    <string name="txt_token_arduino">Mac Arduino</string>
+    <string name="txt_create_account">Crear Cuenta</string>
+
+    <!--Settings Fragment -->
+    <string name="settings_profile">Peril</string>
+    <string name="settings_Car">Vehiculo</string>
+    <string name="settings_notifications">Noitificaciones</string>
+    <string name="settings_functions">Funciones</string>
+    <string name="settings_help">Ayuda</string>
+    <string name="settings_about">Acerca de</string>
+    <string name="settings_signout">Cerrar sesión</string>
+
+    <!--HomeFragment-->
+    <string name="statusOFF">Alarma apagada</string>
+    <string name="statusON">Alarma encendida</string>
+    <string name="txt_alarm">Alarma</string>
+
+    <!-- Auth method picker -->
+    <string name="fui_sign_in_with_facebook">Iniciar sesion con Facebook</string>
+    <string name="fui_sign_in_with_email">Iniciar sesión con email</string>
+
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="title_activity_maps" translatable="false">Map</string>
+    <string name="txt_sensor_impact">Impacto</string>
+    <string name="txt_sensor_weigth">peso</string>
+    <string name="txt_login_account">Inciar sesión</string>
+
+
+
+
+</resources>
