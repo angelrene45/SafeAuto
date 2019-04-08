@@ -18,11 +18,13 @@
     <string name="profile_public_info">Datos publicos</string>
     <string name="profile_update">Actualizar</string>
     <string name="txt_name">Nombre</string>
+    <string name="txt_email">Correo Electronico</string>
     <string name="txt_lastname">Apellidos</string>
     <string name="txt_phone">Telefono</string>
     <string name="txt_model_car">Modelo del Vehiculo</string>
     <string name="txt_plaque">Placas</string>
     <string name="txt_token_arduino">Mac Arduino</string>
+    <string name="txt_provider">Proveedor</string>
     <string name="txt_create_account">Crear Cuenta</string>
 
     <!--Settings Fragment -->
@@ -39,6 +41,15 @@
     <string name="statusON">Alarma encendida</string>
     <string name="txt_alarm">Alarma</string>
 
+    <!--AboutFragment-->
+    <string name="about_version">V. 1.0.2.1</string>
+    <string name="about_developers">DESARROLLADORES:</string>
+    <string name="about_developer1">Germán Macías</string>
+    <string name="about_developer2">Leonel García</string>
+    <string name="about_developer3">Angel Herrera</string>
+    <string name="about_developer4">Rafael Andrade</string>
+    <string name="about_copyrigth">Copyright ©  Todos los Derechos Reservados</string>
+
     <!-- Auth method picker -->
     <string name="fui_sign_in_with_facebook">Iniciar sesion con Facebook</string>
     <string name="fui_sign_in_with_email">Iniciar sesión con email</string>
@@ -49,7 +60,10 @@
     <string name="txt_sensor_weigth">peso</string>
     <string name="txt_login_account">Inciar sesión</string>
 
-
+    <!--Toast Message -->
+    <string name="toast_welcome_user">Bienvenido...</string>
+    <string name="toast_failed_firebaseUI">Ocurrio un error, intenta de nuevo</string>
+    <string name="toast_new_user">Registro exitoso</string>
 
 
 </resources>

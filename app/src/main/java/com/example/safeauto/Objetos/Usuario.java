@@ -3,13 +3,10 @@ package com.example.safeauto.Objetos;
 import java.util.ArrayList;
 
 public class Usuario {
-    public static final String COLLECTION_USER = "usuarios";
-    public static final String COLLECTION_FAVORITOS = "favoritos";
-    public static final String COLLECTION_CHATS = "chats";
+    public static final String PATH_USER = "users";
 
-    public static final String TYPE_USER_ADMIN = "administrador";
-    public static final String TYPE_USER_CLIENT = "cliente";
-    public static final String TYPE_USER_BOUSSINES = "negocio";
+    public static final int TYPE_USER_ADMIN = 0;
+    public static final int TYPE_USER_CLIENT = 1;
 
     public static final String CAMPO_UID = "uid";
     public static final String CAMPO_EMAIL = "email";
@@ -118,5 +115,20 @@ public class Usuario {
 
     public void setRegistrationTokens(ArrayList<String> registrationTokens) {
         this.registrationTokens = registrationTokens;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "uid='" + uid + '\'' +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", photoUrl='" + photoUrl + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", typeUser='" + typeUser + '\'' +
+                ", macArduino='" + macArduino + '\'' +
+                ", provider='" + provider + '\'' +
+                ", registrationTokens=" + registrationTokens +
+                '}';
     }
 }

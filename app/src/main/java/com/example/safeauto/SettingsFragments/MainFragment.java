@@ -17,6 +17,7 @@ import android.widget.SimpleAdapter;
 
 import com.example.safeauto.MainActivity;
 import com.example.safeauto.R;
+import com.example.safeauto.Settings.UserData;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,6 +25,7 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class MainFragment extends Fragment {
 
@@ -38,12 +40,18 @@ public class MainFragment extends Fragment {
     //Help with handle fragments settings
     Fragment fragment,currentFragment;
 
+    //Data user localmente
+    UserData userDataLocal;
+
     String tag;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+
+        //Recuperamos informacion que tenemos localmente en UserData que es un shared preferences
+        userDataLocal = new UserData(Objects.requireNonNull(getContext()));
 
         //lenado de los titulos
         listviewTitle = new String[]{
@@ -115,6 +123,9 @@ public class MainFragment extends Fragment {
                             }
                         });
 
+                        //limpiamos los datos del usuario
+                        onSignedOutCleanup();
+
                         break;
                 }
 
@@ -130,6 +141,11 @@ public class MainFragment extends Fragment {
         ft.replace(R.id.content,fragment);
         ft.addToBackStack(null);
         ft.commit();
+    }
+
+    private void onSignedOutCleanup() {
+        //limpiamos el usuario que cerro sesion
+        userDataLocal.cleanDataUser();
     }
 
 

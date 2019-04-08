@@ -20,11 +20,13 @@
     <string name="profile_public_info">Public data</string>
     <string name="profile_update">Update</string>
     <string name="txt_name">Name</string>
+    <string name="txt_email">E-mail</string>
     <string name="txt_lastname">Last Name</string>
     <string name="txt_phone">Phone</string>
     <string name="txt_model_car">Car model</string>
     <string name="txt_plaque">Plaques</string>
     <string name="txt_token_arduino">Mac Arduino</string>
+    <string name="txt_provider">Provider</string>
     <string name="txt_create_account">Create account</string>
 
     <!--Settings Fragment -->
@@ -36,13 +38,20 @@
     <string name="settings_about">About</string>
     <string name="settings_signout">Sign out</string>
 
-
-
-
     <!--HomeFragment-->
     <string name="statusOFF">Muted alarm</string>
     <string name="statusON">Alarm on</string>
     <string name="txt_alarm">Alarm</string>
+
+    <!--AboutFragment-->
+    <string name="about_version">V. 1.0.2.1</string>
+    <string name="about_developers">DEVELOPERS:</string>
+    <string name="about_developer1">Germán Macías</string>
+    <string name="about_developer2">Leonel García</string>
+    <string name="about_developer3">Angel Herrera</string>
+    <string name="about_developer4">Rafael Andrade</string>
+    <string name="about_copyrigth">Copyright © All Rights reserved</string>
+
 
     <!--Login FirebaseUI-->
     <string name="fui_sign_in_with_facebook">Sign in with Facebook</string>
@@ -58,6 +67,10 @@
 
     <string name="action_settings" translatable="false">Settings</string>
 
+    <!--Toast Message -->
+    <string name="toast_welcome_user">Welcome...</string>
+    <string name="toast_failed_firebaseUI">Something failed, try again please</string>
+    <string name="toast_new_user">Successful registration</string>
 
 
 </resources>

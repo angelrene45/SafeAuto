@@ -1,6 +1,7 @@
 package com.example.safeauto;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,16 +29,25 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.safeauto.LoginFragments.SignUpFragment;
 import com.example.safeauto.MainFragments.CallsFragment;
 import com.example.safeauto.MainFragments.CameraFragment;
 import com.example.safeauto.MainFragments.GalleryFragment;
 import com.example.safeauto.MainFragments.GpsFragment;
 import com.example.safeauto.MainFragments.HomeFragment;
+import com.example.safeauto.Objetos.Sensores;
+import com.example.safeauto.Objetos.Usuario;
+import com.example.safeauto.Settings.UserData;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
@@ -51,12 +61,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String PROVEEDOR_DESCONOCIDO = "Proveedor desconocido" ;
     public static  final String TAG = "MainActivity";
     //Temas de las notificaciones
     private static final String SP_TOPICS = "sharedPreferencesTopics";
-    private static final String PROVEEDOR_DESCONOCIDO = "Proveedor desconocido" ;
-    private static final String PASSWORD_FIREBASE = "password" ; //indica quue se inicio sesion con correo y contraseña
-    private static final String FACEBOOK  = "facebook.com"; //indica quue se inicio sesion con Facebook
     private Set<String> mTopicsSet;
     private SharedPreferences mSharedPreferences;
 
@@ -64,10 +72,19 @@ public class MainActivity extends AppCompatActivity {
     private Fragment fragment;
     private CircleImageView imageProfilePicture;
 
+    //codigo para FirebaseIU (Authentification)
     public static final int RC_SING_IN = 123;
+    public static final int RC_DATA_PERSONAL = 948;
     //Instancias para la autentificacion de usuario en Firebase
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+
+    //instancia a firebase
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference reference = database.getReference(Usuario.PATH_USER);
+
+    //Recuperacion de UserData que es un sharedPreferences
+    UserData userDataLocal;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -149,15 +166,17 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 //usuario logueado
                 if(user!=null){
-                    onSetDataUser(user.getDisplayName(),user.getEmail(),user.getProviders() != null?
-                            user.getProviders().get(0) : PROVEEDOR_DESCONOCIDO);
+                    //verificamos que tenghamos informacion del mac de arduino
+                    verifyUser(user);
 
+                    //Guardamos la informacion del usuario localmente para un rapido acceso a la informacion
+                    onSetDataUser(user);
 
                     //objeto requestOptions para el cache y la imagen
                     RequestOptions requestOptions = new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .centerCrop();
-
+                    //muestra la imagen de perfil con GLADE
                     Glide.with(MainActivity.this)
                             .load(user.getPhotoUrl())
                             .apply(requestOptions)
@@ -170,15 +189,12 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(fragment);
                 }else{//no tiene sesion activa
 
-                    //limpiamos los datos del usuario
-                    onSignedOutCleanup();
-
-                    //provedoor facebook
+                    //Agregamos el provedoor facebook
                     AuthUI.IdpConfig facebookIdp = new AuthUI.IdpConfig.FacebookBuilder()
                             .setPermissions(Arrays.asList("user_friends","user_gender"))
                             .build();
 
-                    //inicializar los proveedores para iniciar sesion
+                    //inicializar los proveedores para iniciar sesion y recibimos respuesta en onActivityResult
                     startActivityForResult(AuthUI.getInstance()
                             .createSignInIntentBuilder()
                             .setIsSmartLockEnabled(false)
@@ -192,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        //nos da la clave hash que nos pide facebook para usar su login
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     "com.example.safeauto",
@@ -208,29 +225,107 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void onSignedOutCleanup() {
-        //limpiamos el usuario que cerro sesion
-        onSetDataUser("","","");
+    private void onSetDataUser(final FirebaseUser user) {
+        //Tiene iniciada la sesion guardamos la informacion del usuario en un preferences o settings
+
+        userDataLocal = new UserData(getApplicationContext());
+
+        reference.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    Usuario objUsuario = dataSnapshot.getValue(Usuario.class);
+                    Log.i(TAG,objUsuario.toString());
+                    assert objUsuario != null;
+                    //almacenamos los datos del usuario de forma local en un shared Preferences
+                    userDataLocal.setUserData(
+                            objUsuario.getName(),objUsuario.getEmail(),
+                            objUsuario.getPhotoUrl(),objUsuario.getPhoneNumber(),
+                            objUsuario.getTypeUser(),objUsuario.getMacArduino(),
+                            objUsuario.getProvider()
+                            );
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
-    private void onSetDataUser(String displayName, String email, String provider) {
-        //guardamos la informacion del usuario
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //recibimos respuesta del servidor del login con FirebaseUI
+        if(requestCode == RC_SING_IN){
+            if(resultCode == Activity.RESULT_OK){
+                /*
+                todo salio bien
+                Ya aqui ya tenemos iniciada la sesion
+                solicitamoslosDatosPersonales como mac de arduino, telefono
+                */
+                FirebaseUser user = mFirebaseAuth.getCurrentUser();
+                //verificamos si es su primer ingreso para solicitar los demas datos pendientes
+                assert user != null;
+                verifyUser(user);
+                Toast.makeText(getApplicationContext(),getString(R.string.toast_welcome_user),Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(getApplicationContext(),getString(R.string.toast_failed_firebaseUI),Toast.LENGTH_SHORT).show();
+            }
+        }
 
-        int drawableRes;
-        switch (provider){
-            case PASSWORD_FIREBASE:
-                drawableRes = R.drawable.ic_firebase;
-                break;
-
-            case FACEBOOK:
-                drawableRes = R.drawable.ic_facebook_box;
-
-                default:
-                    drawableRes = R.drawable.ic_block_helper;
-                    provider = PROVEEDOR_DESCONOCIDO;
-                    break;
+        //Registro de datos personales del usuario ya logueado en Firebase
+        if(requestCode == RC_DATA_PERSONAL){
+            if(resultCode == Activity.RESULT_OK){
+                //Se obtuvieron los datos del usuario correctamente
+                FirebaseUser user = mFirebaseAuth.getCurrentUser();
+                Toast.makeText(getApplicationContext(),getString(R.string.toast_new_user),Toast.LENGTH_SHORT).show();
+            }else{
+                //Con esto obligamos a que el usuario llene los datos forsozamente
+                Toast.makeText(this, "Canceled", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(),LoginDataActivity.class);
+                startActivityForResult(intent,RC_DATA_PERSONAL);
+            }
         }
     }
+
+    private void verifyUser(final FirebaseUser user) {
+
+        //comprobamos si existe el usuario
+        reference.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    //existe usuario
+                    //Toast.makeText(getApplicationContext(), "Existe", Toast.LENGTH_SHORT).show();
+                }else{
+                    //mandamos la informacion basica del usuario(id,email,nombre)
+                    Intent intent = new Intent(getApplicationContext(),LoginDataActivity.class);
+                    intent.putExtra("uid",user.getUid());
+                    intent.putExtra("name",user.getDisplayName());
+                    intent.putExtra("email",user.getEmail());
+                    if(user.getPhotoUrl() != null) {
+                        intent.putExtra("photourl", user.getPhotoUrl() );
+                    }else{
+                        intent.putExtra("photourl", "");
+                    }
+                    intent.putExtra("provider",user.getProviders() != null?
+                            user.getProviders().get(0) : PROVEEDOR_DESCONOCIDO);
+                    startActivityForResult(intent,RC_DATA_PERSONAL);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
 
 
     //investigar como se hace con java para la recuperacion de estados de un fragment
@@ -245,7 +340,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void configSharedPreferences() {
-
         mSharedPreferences = getPreferences(Context.MODE_PRIVATE);
         //extraemos la collecion set y en caso de no existir ponemos una instancia que este vacia
         mTopicsSet = mSharedPreferences.getStringSet(SP_TOPICS,new HashSet<String>());
@@ -257,20 +351,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        //recibimos respuesta del servidor
-        if(requestCode == RC_SING_IN){
-            if(resultCode == -1){
-                //Ya qui ya tenemos iniciada la sesion
-                Toast.makeText(getApplicationContext(),"Bienvenido..",Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(getApplicationContext(),"Algo fallo, intente de nuevo",Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
 
     @Override
