@@ -24,14 +24,13 @@ public class UserData {
         editor = settings.edit();
     }
 
-    public void setUserData(String name, String email, String photo, String phone, String type, String mac, String provider)
+    public void setUserData(String name, String email, String photo, String phone, String type,  String provider)
     {
         editor.putString(KEY_NAME, name);
         editor.putString(KEY_EMAIL, email);
         editor.putString(KEY_PHOTO, photo);
         editor.putString(KEY_PHONE, phone);
         editor.putString(KEY_TYPE, type);
-        editor.putString(KEY_MAC, mac);
         editor.putString(KEY_PROVIDER, provider);
         editor.commit();
     }
@@ -54,9 +53,6 @@ public class UserData {
     }
     public String getType(){
         return settings.getString(KEY_TYPE,"");
-    }
-    public String getMac(){
-        return settings.getString(KEY_MAC,"");
     }
     public String getProvider(){
         return settings.getString(KEY_PROVIDER,"");

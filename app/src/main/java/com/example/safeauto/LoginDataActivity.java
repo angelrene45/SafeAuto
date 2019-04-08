@@ -15,10 +15,14 @@ import com.example.safeauto.Objetos.Car;
 import com.example.safeauto.Objetos.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginDataActivity extends AppCompatActivity {
 
@@ -75,6 +79,7 @@ public class LoginDataActivity extends AppCompatActivity {
         btnCreateAccoutn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG,"url =>" + photourl);
                 phone = etPhone.getText().toString();
                 carModel = etCarModel.getText().toString();
                 plaques= etPlaques.getText().toString();
@@ -84,6 +89,29 @@ public class LoginDataActivity extends AppCompatActivity {
             }
         });
 
+        //validacion para comprobar el estado del usuario ya que regresaba a la activity aunque
+        //ya estubiera registrado
+        comprobarUsuario();
+
+
+    }
+
+    private void comprobarUsuario() {
+        reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    Intent returnIntent = new Intent();
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
@@ -101,27 +129,34 @@ public class LoginDataActivity extends AppCompatActivity {
         objCar.setPlaque(plaques);
         objCar.setMacArduino(mac);
 
+
+
         //Ahora lo subimos ala base de datos toda la informacion
-        reference.child(uid).setValue(objUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+        reference.child(uid).setValue(objUser).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    reference.child(uid).child(Car.PATH_CAR).push().setValue(objCar).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Intent returnIntent = new Intent();
-                            setResult(Activity.RESULT_OK, returnIntent);
-                            finish();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Intent returnIntent = new Intent();
-                            setResult(Activity.RESULT_CANCELED, returnIntent);
-                            finish();
-                        }
-                    });
-                }
+            public void onSuccess(Void aVoid) {
+                reference.child(uid).child(Car.PATH_CAR).push().setValue(objCar).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Intent returnIntent = new Intent();
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Intent returnIntent = new Intent();
+                        setResult(Activity.RESULT_CANCELED, returnIntent);
+                        finish();
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_CANCELED, returnIntent);
+                finish();
             }
         });
 

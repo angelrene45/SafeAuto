@@ -241,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                     userDataLocal.setUserData(
                             objUsuario.getName(),objUsuario.getEmail(),
                             objUsuario.getPhotoUrl(),objUsuario.getPhoneNumber(),
-                            objUsuario.getTypeUser(),objUsuario.getMacArduino(),
+                            objUsuario.getTypeUser(),
                             objUsuario.getProvider()
                             );
                 }
@@ -307,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("name",user.getDisplayName());
                     intent.putExtra("email",user.getEmail());
                     if(user.getPhotoUrl() != null) {
-                        intent.putExtra("photourl", user.getPhotoUrl() );
+                        intent.putExtra("photourl", user.getPhotoUrl().toString() );
                     }else{
                         intent.putExtra("photourl", "");
                     }

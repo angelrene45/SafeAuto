@@ -27,7 +27,7 @@ public class ProfileFragment extends Fragment {
     private static View view;
 
     //Componentes de la vista
-    private TextView tvName,tvEmail,tvPhone,tvMac,tvProvider;
+    private TextView tvName,tvEmail,tvPhone,tvProvider;
     private ImageButton imageButtonProfile;
 
     //Data user localmente
@@ -42,7 +42,6 @@ public class ProfileFragment extends Fragment {
         tvEmail = (TextView)view.findViewById(R.id.tvEmail);
         tvPhone = (TextView)view.findViewById(R.id.tvPhone);
         tvPhone = (TextView)view.findViewById(R.id.tvPhone);
-        tvMac = (TextView)view.findViewById(R.id.tvMac);
         tvProvider = (TextView)view.findViewById(R.id.tvProvider);
         imageButtonProfile = (ImageButton)view.findViewById(R.id.imageProfile);
 
@@ -51,7 +50,6 @@ public class ProfileFragment extends Fragment {
         tvName.setText(userDataLocal.getName());
         tvEmail.setText(userDataLocal.getEmail());
         tvPhone.setText(userDataLocal.getPhone());
-        tvMac.setText(userDataLocal.getMac());
 
         //Rellenamos el imageView con el proveedor
         int drawableRes;
