@@ -10,9 +10,10 @@ public class UserData {
     public static final String KEY_PHOTO= "photo";
     public static final String KEY_PHONE= "phone";
     public static final String KEY_TYPE= "type";
-    public static final String KEY_MAC= "mac";
     public static final String KEY_PROVIDER= "provider";
-
+    public static final String KEY_MODEL= "model";
+    public static final String KEY_PLAQUE= "plaque";
+    public static final String KEY_MAC= "mac";
 
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
@@ -34,6 +35,15 @@ public class UserData {
         editor.putString(KEY_PROVIDER, provider);
         editor.commit();
     }
+
+    public void setCarData(String model, String plaque, String mac)
+    {
+        editor.putString(KEY_MODEL, model);
+        editor.putString(KEY_PLAQUE, plaque);
+        editor.putString(KEY_MAC, mac);
+        editor.commit();
+    }
+
 
     public void cleanDataUser(){
         editor.clear();
@@ -57,5 +67,8 @@ public class UserData {
     public String getProvider(){
         return settings.getString(KEY_PROVIDER,"");
     }
+    public String getModel(){ return settings.getString(KEY_MODEL,""); }
+    public String getPlaque(){ return settings.getString(KEY_PLAQUE,""); }
+    public String getKeyMac(){ return settings.getString(KEY_MAC,""); }
 
 }

@@ -1,31 +1,27 @@
 package com.example.safeauto.Objetos;
 
-public class Sensores {
+public class Sensor {
 
+    // devices/[mac-arduino]/sensors
+    public static final String PATH_DEVICES = "devices";
     public static final String PATH_SENSORS = "sensors";
-    public static final String PATH_LOCATION= "location";
     public static final String FIELD_STATUS = "status";
     public static final String FIELD_WEIGTH= "weight";
     public static final String FIELD_IMPACT= "impact";
-    public static final String FIELD_LATITUDE= "latitude";
-    public static final String FIELD_LONGITUDE= "longitude";
 
     Boolean status;
     Double weight;
     Double impact;
-    Double latitude;
-    Double longitud;
 
-    public Sensores() {
+
+    public Sensor() {
     }
 
 
-    public Sensores(Boolean status, Double weight, Double impact, Double latitude, Double longitud) {
+    public Sensor(Boolean status, Double weight, Double impact) {
         this.status = status;
         this.weight = weight;
         this.impact = impact;
-        this.latitude = latitude;
-        this.longitud = longitud;
     }
 
     public Boolean getStatus() {
@@ -52,19 +48,12 @@ public class Sensores {
         this.impact = impact;
     }
 
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitud() {
-        return longitud;
-    }
-
-    public void setLongitud(Double longitud) {
-        this.longitud = longitud;
+    @Override
+    public String toString() {
+        return "Sensor{" +
+                "status=" + status +
+                ", weight=" + weight +
+                ", impact=" + impact +
+                '}';
     }
 }

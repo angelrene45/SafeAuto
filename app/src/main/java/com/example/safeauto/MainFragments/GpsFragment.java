@@ -2,6 +2,7 @@ package com.example.safeauto.MainFragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,8 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.safeauto.Objetos.Sensores;
+import com.example.safeauto.MainActivity;
+import com.example.safeauto.Objetos.Location;
+import com.example.safeauto.Objetos.Sensor;
 import com.example.safeauto.R;
+import com.example.safeauto.Settings.UserData;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,6 +25,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class GpsFragment extends Fragment implements OnMapReadyCallback {
 
-    public static final String TAG = "GPSFragment";
+    public static final String TAG = "GpsFragment";
     public static final float DEFAULT_ZOOM = 14f;
     public static final float MORE_ZOOM = 16f;
 
@@ -38,16 +43,18 @@ public class GpsFragment extends Fragment implements OnMapReadyCallback {
     GoogleMap mMap;
     //Instancia de el View donde se agregan todos los compenentes de la vista
     private static View view;
-    //objeto Sensores que nos ayuda a obtener la latitud y longitud
-    Sensores objSensores;
-
-    //instancia a firebase
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference reference = database.getReference(Sensores.PATH_SENSORS).child(Sensores.PATH_LOCATION);
+    //objeto Location que nos ayuda a obtener la latitud y longitud
+    private Location objLocation;
 
     //Soporte al mapFragment
     SupportMapFragment mapFragment;
 
+    private String macUser = MainActivity.userDataLocal.getKeyMac();
+
+    //Instancia a firebase a en el child location
+    //https://safeauto-65aa8.firebaseio.com/devices/[MAC-ARDUINO]/location
+    private DatabaseReference referenceGPS = FirebaseDatabase.getInstance().getReference(Location.PATH_DEVICES)
+            .child(macUser).child(Location.PATH_LOCATION);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,6 +66,7 @@ public class GpsFragment extends Fragment implements OnMapReadyCallback {
                 parent.removeView(view);
         }
         try {
+
             //inflamos la vista con el layout del fragment gps
             view = inflater.inflate(R.layout.fragment_gps, container, false);
 
@@ -101,15 +109,18 @@ public class GpsFragment extends Fragment implements OnMapReadyCallback {
         Log.i(TAG, "Llenando informacion FRAGMENT UBICACION");
         //consulta a los datos Longitud y Latidud en la base de datos Firebase
 
-        //escuchador que nos avisa cuando cambie la ubicacion del gps
-        reference.addValueEventListener(new ValueEventListener() {
+
+        //escuchador que nos avisa cuando cambie la ubicacion del gps de la mac del usuario
+        referenceGPS.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.i(TAG,"Objeto => "+ dataSnapshot.toString());
-                objSensores = dataSnapshot.getValue(Sensores.class);
-
-                if(objSensores != null){
-                    moveCamera(new LatLng(objSensores.getLatitude(),objSensores.getLongitud()),MORE_ZOOM,"Chevy 2009");
+                if(dataSnapshot.exists()) {
+                    objLocation = dataSnapshot.getValue(Location.class);
+                    if(objLocation != null) {
+                        Log.i(TAG, "Objeto dataSnapshot => " + objLocation.toString());
+                        Log.i(TAG, "Objeto  Location => " + dataSnapshot.toString());
+                        moveCamera(new LatLng(objLocation.getLatitude(), objLocation.getLongitude()), MORE_ZOOM, "Chevy 2009");
+                    }
                 }
             }
 
@@ -118,7 +129,6 @@ public class GpsFragment extends Fragment implements OnMapReadyCallback {
 
             }
         });
-
 
     }
 

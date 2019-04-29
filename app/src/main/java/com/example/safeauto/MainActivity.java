@@ -1,6 +1,6 @@
 package com.example.safeauto;
 
-import android.app.ActionBar;
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,24 +19,21 @@ import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.safeauto.LoginFragments.SignUpFragment;
 import com.example.safeauto.MainFragments.CallsFragment;
 import com.example.safeauto.MainFragments.CameraFragment;
 import com.example.safeauto.MainFragments.GalleryFragment;
 import com.example.safeauto.MainFragments.GpsFragment;
 import com.example.safeauto.MainFragments.HomeFragment;
-import com.example.safeauto.Objetos.Sensores;
+import com.example.safeauto.Objetos.Car;
+import com.example.safeauto.Objetos.Location;
 import com.example.safeauto.Objetos.Usuario;
 import com.example.safeauto.Settings.UserData;
 import com.firebase.ui.auth.AuthUI;
@@ -61,6 +59,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final int REQUEST_CALL = 302 ;
     private static final String PROVEEDOR_DESCONOCIDO = "Proveedor desconocido" ;
     public static  final String TAG = "MainActivity";
     //Temas de las notificaciones
@@ -80,11 +79,11 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     //instancia a firebase
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference reference = database.getReference(Usuario.PATH_USER);
+    private DatabaseReference referenceUser = FirebaseDatabase.getInstance().getReference(Usuario.PATH_USER);
 
     //Recuperacion de UserData que es un sharedPreferences
-    UserData userDataLocal;
+    //es estatico para poder usaarlo en cualquier Activity de la aplicacion y obtener los datos rapidamente
+    public static UserData userDataLocal;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -156,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
 
-        //obitene la instancia a FirebaseAuth
+        //obitiene la instancia a FirebaseAuth
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         //se ejecutara cada vez que se inicie o cierre sesion
@@ -164,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
+
                 //usuario logueado
                 if(user!=null){
                     //verificamos que tenghamos informacion del mac de arduino
@@ -187,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
                     //Mostramos el fragment Home
                     fragment = new HomeFragment();
                     replaceFragment(fragment);
+
                 }else{//no tiene sesion activa
 
                     //Agregamos el provedoor facebook
@@ -223,6 +224,10 @@ public class MainActivity extends AppCompatActivity {
         } catch (NoSuchAlgorithmException e) {
 
         }
+
+        //pedimos permisos de las llamadas telefonicas que se utilizara en CallFragment
+        ActivityCompat.requestPermissions(MainActivity.this,
+                new String[]{Manifest.permission.CALL_PHONE},REQUEST_CALL);
     }
 
     private void onSetDataUser(final FirebaseUser user) {
@@ -230,12 +235,13 @@ public class MainActivity extends AppCompatActivity {
 
         userDataLocal = new UserData(getApplicationContext());
 
-        reference.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        //Datos del usuario
+        referenceUser.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     Usuario objUsuario = dataSnapshot.getValue(Usuario.class);
-                    Log.i(TAG,objUsuario.toString());
+                    Log.i(TAG,dataSnapshot.toString());
                     assert objUsuario != null;
                     //almacenamos los datos del usuario de forma local en un shared Preferences
                     userDataLocal.setUserData(
@@ -244,6 +250,27 @@ public class MainActivity extends AppCompatActivity {
                             objUsuario.getTypeUser(),
                             objUsuario.getProvider()
                             );
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        //Datos del Automovil
+        referenceUser.child(user.getUid()).child(Car.PATH_CAR).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()) {
+                    Car objCar = dataSnapshot.getValue(Car.class);
+                    Log.i(TAG, "Objeto Carro => " + objCar.toString());
+                    assert objCar != null;
+                    //almacenamos los datos del usuario de forma local en un shared Preferences
+                    userDataLocal.setCarData(
+                            objCar.getModel(), objCar.getPlaque(),
+                            objCar.getMacArduino()
+                    );
                 }
             }
 
@@ -270,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
                 //verificamos si es su primer ingreso para solicitar los demas datos pendientes
                 assert user != null;
                 verifyUser(user);
-                Toast.makeText(getApplicationContext(),getString(R.string.toast_welcome_user),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),getString(R.string.toast_welcome_user),Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(getApplicationContext(),getString(R.string.toast_failed_firebaseUI),Toast.LENGTH_SHORT).show();
             }
@@ -294,7 +321,7 @@ public class MainActivity extends AppCompatActivity {
     private void verifyUser(final FirebaseUser user) {
 
         //comprobamos si existe el usuario
-        reference.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        referenceUser.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
@@ -349,6 +376,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void showTopics() {
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode == REQUEST_CALL ){
+            if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                //todo bien
+                //tenemos los permisos
+            }else{
+                Toast.makeText(getApplicationContext(), getString(R.string.toast_failed_permission_call), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 

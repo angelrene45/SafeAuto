@@ -130,12 +130,11 @@ public class LoginDataActivity extends AppCompatActivity {
         objCar.setMacArduino(mac);
 
 
-
         //Ahora lo subimos ala base de datos toda la informacion
         reference.child(uid).setValue(objUser).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                reference.child(uid).child(Car.PATH_CAR).push().setValue(objCar).addOnSuccessListener(new OnSuccessListener<Void>() {
+                reference.child(uid).child(Car.PATH_CAR).setValue(objCar).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Intent returnIntent = new Intent();

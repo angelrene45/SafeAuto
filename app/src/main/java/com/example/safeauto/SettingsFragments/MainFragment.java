@@ -55,7 +55,7 @@ public class MainFragment extends Fragment {
 
         //lenado de los titulos
         listviewTitle = new String[]{
-                getResources().getString(R.string.settings_profile), getResources().getString(R.string.settings_Car),
+                getResources().getString(R.string.settings_profile),
                 getResources().getString(R.string.settings_notifications), getResources().getString(R.string.settings_functions),
                 getResources().getString(R.string.settings_help), getResources().getString(R.string.settings_about),
                 getResources().getString(R.string.settings_signout)
@@ -63,14 +63,14 @@ public class MainFragment extends Fragment {
 
         //Llenado de los icons
         listviewImage = new int[]{
-                R.drawable.ic_settings_account, R.drawable.ic_settings_car, R.drawable.ic_settings_notifications,
+                R.drawable.ic_settings_account, R.drawable.ic_settings_notifications,
                 R.drawable.ic_settings_functions, R.drawable.ic_settings_help, R.drawable.ic_settings_info,
                 R.drawable.ic_settings_logout
         };
 
         List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 6; i++) {
             HashMap<String, String> hm = new HashMap<String, String>();
             hm.put("listview_title", listviewTitle[i]);
             hm.put("listview_image", Integer.toString(listviewImage[i]));
@@ -93,27 +93,23 @@ public class MainFragment extends Fragment {
                         replaceFragment(fragment);
                         break;
                     case 1:
-                        fragment = new CarFragment();
-                        replaceFragment(fragment);
-                        break;
-                    case 2:
                         fragment = new NotificationsFragment();
                         replaceFragment(fragment);
                         break;
-                    case 3:
+                    case 2:
                         fragment = new FunctionsFragment();
                         replaceFragment(fragment);
                         break;
-                    case 4:
+                    case 3:
                         fragment = new HelpFragment();
                         replaceFragment(fragment);
                         break;
-                    case 5:
+                    case 4:
                         fragment = new AboutFragment();
                         replaceFragment(fragment);
                         break;
 
-                    case 6:
+                    case 5:
                         //cerramos sesion
                         AuthUI.getInstance().signOut(getContext())
                         .addOnCompleteListener(new OnCompleteListener<Void>() {

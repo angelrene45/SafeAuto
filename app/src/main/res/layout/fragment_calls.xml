@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainFragments.CallsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Calls" />
 
-</FrameLayout>
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageCall"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Elegir otro numero" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Llamada de emergencia"
+        android:textColor="@color/colorBlack"
+        android:textSize="32sp" />
+
+    <ImageView
+        android:id="@+id/imageCall"
+        android:layout_width="110dp"
+        android:layout_height="102dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_call"
+        android:background="?attr/selectableItemBackgroundBorderless"/>
+
+</RelativeLayout>

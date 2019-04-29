@@ -71,6 +71,7 @@
     <string name="toast_welcome_user">Welcome...</string>
     <string name="toast_failed_firebaseUI">Something failed, try again please</string>
     <string name="toast_new_user">Successful registration</string>
+    <string name="toast_failed_permission_call">Permission DENIED</string>
 
 
 </resources>

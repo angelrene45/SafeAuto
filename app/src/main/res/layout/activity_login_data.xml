@@ -42,7 +42,7 @@
                     android:id="@+id/et_phone"
                     android:layout_width="match_parent"
                     android:layout_height="43dp"
-                    android:inputType="text"
+                    android:inputType="phone"
                     android:ems="10"
                     android:drawablePadding="12dp"
                     android:padding="8dp"
@@ -52,7 +52,7 @@
                     android:maxLines="1"
                     android:background="@android:color/transparent"
                     android:layout_marginTop="4dp"
-                    android:drawableStart="@drawable/ic_login_password_black"
+                    android:drawableStart="@drawable/ic_phone"
                     />
                 <View
                     android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                     android:maxLines="1"
                     android:background="@android:color/transparent"
                     android:layout_marginTop="4dp"
-                    android:drawableStart="@drawable/ic_login_password_black"
+                    android:drawableStart="@drawable/ic_car"
                     />
                 <View
                     android:layout_width="match_parent"
@@ -94,7 +94,7 @@
                     android:maxLines="1"
                     android:background="@android:color/transparent"
                     android:layout_marginTop="4dp"
-                    android:drawableStart="@drawable/ic_login_password_black"
+                    android:drawableStart="@drawable/ic_car"
                     />
                 <View
                     android:layout_width="match_parent"
@@ -115,7 +115,7 @@
                     android:maxLines="1"
                     android:background="@android:color/transparent"
                     android:layout_marginTop="4dp"
-                    android:drawableStart="@drawable/ic_login_password_black"
+                    android:drawableStart="@drawable/ic_mac"
                     />
                 <View
                     android:layout_width="match_parent"

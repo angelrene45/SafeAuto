@@ -18,6 +18,8 @@ import com.example.safeauto.Settings.UserData;
 
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ProfileFragment extends Fragment {
 
     private static final String PROVEEDOR_DESCONOCIDO = "Proveedor desconocido" ;
@@ -28,7 +30,9 @@ public class ProfileFragment extends Fragment {
 
     //Componentes de la vista
     private TextView tvName,tvEmail,tvPhone,tvProvider;
-    private ImageButton imageButtonProfile;
+    private TextView tvCarModel,tvPlaque,tvMac;
+    private CircleImageView imageButtonProfile;
+    private ImageView imageButtonCar;
 
     //Data user localmente
     UserData userDataLocal;
@@ -43,13 +47,20 @@ public class ProfileFragment extends Fragment {
         tvPhone = (TextView)view.findViewById(R.id.tvPhone);
         tvPhone = (TextView)view.findViewById(R.id.tvPhone);
         tvProvider = (TextView)view.findViewById(R.id.tvProvider);
-        imageButtonProfile = (ImageButton)view.findViewById(R.id.imageProfile);
+        tvCarModel = (TextView)view.findViewById(R.id.tvModel);
+        tvPlaque = (TextView)view.findViewById(R.id.tvPlaque);
+        tvMac = (TextView)view.findViewById(R.id.tvmacArduino);
+        imageButtonProfile = (CircleImageView) view.findViewById(R.id.imageProfile);
+        imageButtonCar = (ImageView) view.findViewById(R.id.imageCar);
 
         //Recuperamos informacion que tenemos localmente en UserData que es un shared preferences
-        userDataLocal = new UserData(Objects.requireNonNull(getContext()));
+        userDataLocal = MainActivity.userDataLocal;
         tvName.setText(userDataLocal.getName());
         tvEmail.setText(userDataLocal.getEmail());
         tvPhone.setText(userDataLocal.getPhone());
+        tvCarModel.setText(userDataLocal.getModel());
+        tvPlaque.setText(userDataLocal.getPlaque());
+        tvMac.setText(userDataLocal.getKeyMac());
 
         //Rellenamos el imageView con el proveedor
         int drawableRes;
@@ -78,7 +89,7 @@ public class ProfileFragment extends Fragment {
         Glide.with(getContext())
                 .load(userDataLocal.getPhoto())
                 .apply(requestOptions)
-                .placeholder(R.drawable.ic_account)
+                .placeholder(R.drawable.ic_account_circle)
                 .into(imageButtonProfile);
 
 

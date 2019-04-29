@@ -1,7 +1,6 @@
 package com.example.safeauto.MainFragments;
 
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,7 +16,8 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.safeauto.MainActivity;
-import com.example.safeauto.Objetos.Sensores;
+import com.example.safeauto.Objetos.Location;
+import com.example.safeauto.Objetos.Sensor;
 import com.example.safeauto.R;
 import com.example.safeauto.Settings.UserSettings;
 import com.google.firebase.database.DataSnapshot;
@@ -41,12 +41,17 @@ public class HomeFragment extends Fragment {
     Boolean settingStatusAlarm = false;
     UserSettings userSettings;
 
-    //instancia a firebase
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference reference = database.getReference(Sensores.PATH_SENSORS);
+
+    //MacUser guardado en el sharedPrefercences
+    String macUser = MainActivity.userDataLocal.getKeyMac();
+
+    //instancia a firebase de los sensores
+    //https://safeauto-65aa8.firebaseio.com/devices/[MAC-ARDUINO]/sensors
+    DatabaseReference referenceSensors = FirebaseDatabase.getInstance().getReference(Sensor.PATH_DEVICES)
+            .child(macUser).child(Sensor.PATH_SENSORS);
 
     //instancia a clase  sensores
-    Sensores objSensores;
+    Sensor objSensor;
 
     //instanmcia View
     private static View view;
@@ -71,6 +76,8 @@ public class HomeFragment extends Fragment {
         try {
             view = inflater.inflate(R.layout.fragment_home, container, false);
 
+            Log.i(TAG,macUser);
+
             //instancia a medidores
             gaugeImpact = view.findViewById(R.id.gaugeImpact);
             gaugeWeight = view.findViewById(R.id.gaugeWeigth);
@@ -82,7 +89,7 @@ public class HomeFragment extends Fragment {
             listenerSensors();
 
             //instancia al objeto sensores
-            objSensores = new Sensores();
+            objSensor = new Sensor();
 
             //Instancia al switch boton para saber si esta encendida o apagada la alarma
             switchStatusAlarma = view.findViewById(R.id.statusAlarm);
@@ -100,11 +107,11 @@ public class HomeFragment extends Fragment {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
                         Toast.makeText(getContext(),getString(R.string.statusON), Toast.LENGTH_SHORT).show();
-                        reference.child(Sensores.FIELD_STATUS).setValue(true);
+                        referenceSensors.child(Sensor.FIELD_STATUS).setValue(true);
                         userSettings.setStatusAlarm(true);
                     }else{
                         Toast.makeText(getContext(),getString(R.string.statusOFF), Toast.LENGTH_SHORT).show();
-                        reference.child(Sensores.FIELD_STATUS).setValue(false);
+                        referenceSensors.child(Sensor.FIELD_STATUS).setValue(false);
                         userSettings.setStatusAlarm(false);
                     }
                 }
@@ -120,29 +127,35 @@ public class HomeFragment extends Fragment {
     //maximo es 270
     private void listenerSensors() {
 
-        reference.addValueEventListener(new ValueEventListener() {
+        referenceSensors.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Sensores objSensor = dataSnapshot.getValue(Sensores.class);
+                if(dataSnapshot.exists()) {
+                    Log.i(TAG,dataSnapshot.toString());
+                    Sensor objSensor = dataSnapshot.getValue(Sensor.class);
+
+                    if(objSensor != null) {
+                        Log.i(TAG,objSensor.toString());
+
+                        if (objSensor.getImpact() == 1) {
+                            gaugeImpact.setValue(GAUGE_FULL);
 
 
-                if(objSensor.getImpact() == 1){
-                    gaugeImpact.setValue(GAUGE_FULL);
+                        } else if (objSensor.getImpact() == 0) {
+                            gaugeImpact.setValue(GAUGE_LOW);
+                        }
 
+                        if (objSensor.getWeight() == 1) {
+                            gaugeWeight.setValue(GAUGE_LOW);
 
-                }else if (objSensor.getImpact() == 0){
-                    gaugeImpact.setValue(GAUGE_LOW);
+                        } else if (objSensor.getImpact() == 0) {
+                            gaugeWeight.setValue(GAUGE_FULL);
+
+                        }
+
+                        Log.i(TAG, dataSnapshot.toString());
+                    }
                 }
-
-                if(objSensor.getWeight() == 1){
-                    gaugeWeight.setValue(GAUGE_LOW);
-
-                }else if (objSensor.getImpact() == 0){
-                    gaugeWeight.setValue(GAUGE_FULL);
-
-                }
-
-                Log.i(TAG,dataSnapshot.toString());
             }
 
             @Override
@@ -155,25 +168,25 @@ public class HomeFragment extends Fragment {
     //obtiene el estatus actual en la base de datos de la alarma y lo compara con el settingUusario
     //comparando que este bien y no haya fallas
     private void getCurrentStatusAlarmFirebase() {
-        reference.child(Sensores.FIELD_STATUS);
+        referenceSensors.child(Sensor.FIELD_STATUS);
 
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        referenceSensors.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //objeto de firebase lo parsea en la clase Sensores para obtener status
-                Sensores sensores  = dataSnapshot.getValue(Sensores.class);
+                //objeto de firebase lo parsea en la clase Sensor para obtener status
+                Sensor sensor = dataSnapshot.getValue(Sensor.class);
 
                 //recuperamos el ultimo status que ingreso el usuario
                 settingStatusAlarm = userSettings.getStatusAlarm();
 
                 //si es diferentes el status que se guardo en los settings que en la base de datos de
                 //Firebase cambiamos el switch como esta en firebase y el settings lo actualizamos
-                assert sensores != null; //validacion que el objeto sensores no sea null
-                if(settingStatusAlarm != sensores.getStatus()){
-                    switchStatusAlarma.setChecked(sensores.getStatus());
-                    userSettings.setStatusAlarm(sensores.getStatus());
+                assert sensor != null; //validacion que el objeto sensor no sea null
+                if(settingStatusAlarm != sensor.getStatus()){
+                    switchStatusAlarma.setChecked(sensor.getStatus());
+                    userSettings.setStatusAlarm(sensor.getStatus());
                 }
-                Log.i(TAG,sensores.getStatus().toString());
+                Log.i(TAG, sensor.getStatus().toString());
             }
 
             @Override

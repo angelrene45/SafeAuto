@@ -40,4 +40,13 @@ public class Car {
     public void setMacArduino(String macArduino) {
         this.macArduino = macArduino;
     }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "Model='" + Model + '\'' +
+                ", Plaque='" + Plaque + '\'' +
+                ", macArduino='" + macArduino + '\'' +
+                '}';
+    }
 }
