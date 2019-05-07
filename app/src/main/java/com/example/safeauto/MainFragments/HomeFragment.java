@@ -173,20 +173,22 @@ public class HomeFragment extends Fragment {
         referenceSensors.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //objeto de firebase lo parsea en la clase Sensor para obtener status
-                Sensor sensor = dataSnapshot.getValue(Sensor.class);
+                if (dataSnapshot.exists()) {
+                    //objeto de firebase lo parsea en la clase Sensor para obtener status
+                    Sensor sensor = dataSnapshot.getValue(Sensor.class);
 
-                //recuperamos el ultimo status que ingreso el usuario
-                settingStatusAlarm = userSettings.getStatusAlarm();
+                    //recuperamos el ultimo status que ingreso el usuario
+                    settingStatusAlarm = userSettings.getStatusAlarm();
 
-                //si es diferentes el status que se guardo en los settings que en la base de datos de
-                //Firebase cambiamos el switch como esta en firebase y el settings lo actualizamos
-                assert sensor != null; //validacion que el objeto sensor no sea null
-                if(settingStatusAlarm != sensor.getStatus()){
-                    switchStatusAlarma.setChecked(sensor.getStatus());
-                    userSettings.setStatusAlarm(sensor.getStatus());
+                    //si es diferentes el status que se guardo en los settings que en la base de datos de
+                    //Firebase cambiamos el switch como esta en firebase y el settings lo actualizamos
+                    assert sensor != null; //validacion que el objeto sensor no sea null
+                    if(settingStatusAlarm != sensor.getStatus()){
+                        switchStatusAlarma.setChecked(sensor.getStatus());
+                        userSettings.setStatusAlarm(sensor.getStatus());
+                    }
+                    Log.i(TAG, sensor.getStatus().toString());
                 }
-                Log.i(TAG, sensor.getStatus().toString());
             }
 
             @Override

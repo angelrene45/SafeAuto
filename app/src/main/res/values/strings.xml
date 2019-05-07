@@ -7,6 +7,8 @@
     <!--Notification service -->
     <string name="normal_channel_id" translatable="false">channel.id.notification.normal</string>
     <string name="normal_channel_name" translatable="false">Alerta normal</string>
+    <string name="low_channel_id" translatable="false">channel.id.notification.low</string>
+    <string name="low_channel_name" translatable="false">Alerta Baja</string>
 
     <!--Botton Navigation Drawer -->
     <string name="title_home">Home</string>
@@ -67,11 +69,34 @@
 
     <string name="action_settings" translatable="false">Settings</string>
 
+    <!--Notification Fragment  -->
+    <string name="notifications_select">Select</string>
+    <string name="topicSensorWeight">Weight Sensor</string>
+    <string name="topicSensorImpact">Impact Sensor</string>
+    <string name="topicSensorCamera">Camera</string>
+    <string name="subscribe">SUBSCRIBE</string>
+    <string name="unsuscribe">UNSUBSCRIBE</string>
+    <string name="topics">topics</string>
+
+    <!--Call Fragment -->
+    <string name="call_emergency">Emergency call</string>
+    <string name="choose_number">Choose number</string>
+
+    <!--Help Fragment -->
+    <string name="help_alarm">I can\'t start alarm</string>
+    <string name="help_close">The app stop and close</string>
+    
+    <!--Functions Fragment -->
+    <string name="functions_alarm_off">Alarm ON/OFF</string>
+    <string name="functions_contact">Contact emergency services</string>
+    <string name="functions_locate">Locate your car</string>
+
     <!--Toast Message -->
     <string name="toast_welcome_user">Welcome...</string>
     <string name="toast_failed_firebaseUI">Something failed, try again please</string>
     <string name="toast_new_user">Successful registration</string>
     <string name="toast_failed_permission_call">Permission DENIED</string>
+
 
 
 </resources>

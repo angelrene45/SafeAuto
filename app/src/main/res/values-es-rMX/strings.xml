@@ -60,6 +60,29 @@
     <string name="txt_sensor_weigth">peso</string>
     <string name="txt_login_account">Inciar sesión</string>
 
+    <!--Notification Fragment  -->
+    <string name="notifications_select">Seleccionar</string>
+    <string name="topicSensorWeight">Sensor de peso</string>
+    <string name="topicSensorImpact">Sensor de impacto</string>
+    <string name="topicSensorCamera">Camara</string>
+    <string name="subscribe">SUSCRIBIR</string>
+    <string name="unsuscribe">DESUSCRIBIR</string>
+    <string name="topics">topicos</string>
+
+    <!--Call Fragment -->
+    <string name="call_emergency">Llamada de emergencia</string>
+    <string name="choose_number">Escoge otro numero</string>
+
+    <!--Help Fragment -->
+    <string name="help_alarm">No puedo iniciar la alarma</string>
+    <string name="help_close">La aplicacion se detiene</string>
+
+
+    <!--Functions Fragment -->
+    <string name="functions_alarm_off">Activar/Desactivar Alarma</string>
+    <string name="functions_contact">Contactar servicios de emergencia</string>
+    <string name="functions_locate">Localiza tu vehículo</string>
+
     <!--Toast Message -->
     <string name="toast_welcome_user">Bienvenido...</string>
     <string name="toast_failed_firebaseUI">Ocurrio un error, intenta de nuevo</string>

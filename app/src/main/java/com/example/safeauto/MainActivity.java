@@ -35,6 +35,7 @@ import com.example.safeauto.MainFragments.HomeFragment;
 import com.example.safeauto.Objetos.Car;
 import com.example.safeauto.Objetos.Location;
 import com.example.safeauto.Objetos.Usuario;
+import com.example.safeauto.Settings.SharedPreferencesManager;
 import com.example.safeauto.Settings.UserData;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -51,6 +52,7 @@ import com.google.firebase.iid.InstanceIdResult;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -84,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
     //Recuperacion de UserData que es un sharedPreferences
     //es estatico para poder usaarlo en cualquier Activity de la aplicacion y obtener los datos rapidamente
     public static UserData userDataLocal;
+
+    //manejo de tokens
+    private ArrayList<String> listTokens;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -166,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //usuario logueado
                 if(user!=null){
-                    //verificamos que tenghamos informacion del mac de arduino
+                    //verificamos que tengamos informacion del mac de arduino
                     verifyUser(user);
 
                     //Guardamos la informacion del usuario localmente para un rapido acceso a la informacion
@@ -182,7 +187,6 @@ public class MainActivity extends AppCompatActivity {
                             .apply(requestOptions)
                             .placeholder(R.drawable.ic_account_circle)
                             .into(imageProfilePicture);
-
 
                     //Mostramos el fragment Home
                     fragment = new HomeFragment();
@@ -228,6 +232,8 @@ public class MainActivity extends AppCompatActivity {
         //pedimos permisos de las llamadas telefonicas que se utilizara en CallFragment
         ActivityCompat.requestPermissions(MainActivity.this,
                 new String[]{Manifest.permission.CALL_PHONE},REQUEST_CALL);
+
+        listTokens = new ArrayList<>();
     }
 
     private void onSetDataUser(final FirebaseUser user) {
@@ -250,20 +256,9 @@ public class MainActivity extends AppCompatActivity {
                             objUsuario.getTypeUser(),
                             objUsuario.getProvider()
                             );
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        //Datos del Automovil
-        referenceUser.child(user.getUid()).child(Car.PATH_CAR).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()) {
-                    Car objCar = dataSnapshot.getValue(Car.class);
+                    //Datos del automovil
+                    Car objCar = dataSnapshot.child(Car.PATH_CAR).getValue(Car.class);
                     Log.i(TAG, "Objeto Carro => " + objCar.toString());
                     assert objCar != null;
                     //almacenamos los datos del usuario de forma local en un shared Preferences
@@ -326,6 +321,9 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     //existe usuario
+                    Usuario objetoUsuario = dataSnapshot.getValue(Usuario.class);
+                    objetoUsuario.setUid(user.getUid());
+                    comprobarTokensUser(objetoUsuario);
                     //Toast.makeText(getApplicationContext(), "Existe", Toast.LENGTH_SHORT).show();
                 }else{
                     //mandamos la informacion basica del usuario(id,email,nombre)
@@ -352,7 +350,33 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /* Metodo que comprueba los tokens del usuario */
+    private void comprobarTokensUser(Usuario objUsuario) {
+        int aux=0;
+        String tokenDevice = SharedPreferencesManager.getInstance(getApplicationContext()).getToken();
+        ArrayList<String> tokensUsuario = objUsuario.getRegistrationTokens();
 
+        Log.i(TAG, "size " + tokensUsuario.size());
+        for(int i=0;i<tokensUsuario.size();i++){
+
+            Log.i("token",tokensUsuario.get(i));
+
+            if (tokensUsuario.get(i).equals(tokenDevice)) {
+                //no es necesario actualizar la lista de token
+                aux=-1;
+            }
+
+        }
+
+        if(aux == -1) {
+            Log.i(TAG,"No hay nuevo token no actualiza");
+        }else {
+            Log.i(TAG,"Actualiza nuevo token");
+            tokensUsuario.add(tokenDevice); //añade el nuevo token
+            referenceUser.child(objUsuario.getUid()).child(Usuario.CAMPO_REGISTRATION_TOKENS).
+                    setValue(tokensUsuario);
+        }
+    }
 
 
     //investigar como se hace con java para la recuperacion de estados de un fragment

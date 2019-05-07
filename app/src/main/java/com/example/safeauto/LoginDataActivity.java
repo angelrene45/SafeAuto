@@ -9,20 +9,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.safeauto.Objetos.Car;
+import com.example.safeauto.Objetos.Sensor;
 import com.example.safeauto.Objetos.Usuario;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.safeauto.Settings.SharedPreferencesManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class LoginDataActivity extends AppCompatActivity {
 
@@ -32,7 +32,8 @@ public class LoginDataActivity extends AppCompatActivity {
 
     //instancia a firebase
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference reference = database.getReference(Usuario.PATH_USER);
+    DatabaseReference referenceUser = database.getReference(Usuario.PATH_USER);
+    DatabaseReference referenceDevices = database.getReference(Sensor.PATH_DEVICES);
 
     //Objetos
     Usuario objUser = new Usuario();
@@ -48,6 +49,10 @@ public class LoginDataActivity extends AppCompatActivity {
     private String carModel;
     private String plaques;
     private String mac;
+
+    //manejo de tokens
+    private ArrayList<String> listTokens;
+
 
 
     @Override
@@ -70,6 +75,13 @@ public class LoginDataActivity extends AppCompatActivity {
         etCarModel = (EditText)findViewById(R.id.et_car_model);
         etPlaques = (EditText)findViewById(R.id.et_plaque);
         etMac = (EditText)findViewById(R.id.et_mac_arduino);
+
+        listTokens = new ArrayList<>();
+
+        if(SharedPreferencesManager.getInstance(getApplicationContext()).getToken() != null){
+            //añade token a arrayList
+            listTokens.add(SharedPreferencesManager.getInstance(getApplicationContext()).getToken());
+        }
 
 
         //VALIDACIONES QUE OBTENGAMOS INFORMACION REAL
@@ -97,7 +109,7 @@ public class LoginDataActivity extends AppCompatActivity {
     }
 
     private void comprobarUsuario() {
-        reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+        referenceUser.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
@@ -125,16 +137,25 @@ public class LoginDataActivity extends AppCompatActivity {
         objUser.setPhotoUrl(photoUrl);
         objUser.setProvider(provider);
         objUser.setPhoneNumber(phone);
+        objUser.setRegistrationTokens(listTokens);
         objCar.setModel(carModel);
         objCar.setPlaque(plaques);
         objCar.setMacArduino(mac);
 
+        //Inicializamos los datos en el PATH Device si no existiecen para la validacion de un error
+        Sensor objSensor = new Sensor();
+        objSensor.setImpact(0.0);
+        objSensor.setWeight(1.0);
+        objSensor.setStatus(false);
+        referenceDevices.child(mac).setValue(objSensor);
+
+
 
         //Ahora lo subimos ala base de datos toda la informacion
-        reference.child(uid).setValue(objUser).addOnSuccessListener(new OnSuccessListener<Void>() {
+        referenceUser.child(uid).setValue(objUser).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                reference.child(uid).child(Car.PATH_CAR).setValue(objCar).addOnSuccessListener(new OnSuccessListener<Void>() {
+                referenceUser.child(uid).child(Car.PATH_CAR).setValue(objCar).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Intent returnIntent = new Intent();

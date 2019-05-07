@@ -5,6 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".SettingsFragments.HelpFragment">
 
+    <ListView
+        android:id="@+id/list_view_help"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 
 
 </FrameLayout>
