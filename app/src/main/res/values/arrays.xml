@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Topics">
+        <item>@string/topicSensorWeight</item>
+        <item>@string/topicSensorImpact</item>
+        <item>@string/topicSensorCamera</item>
+    </string-array>
+    <string-array name="TopicsValues">
+        <item>weight_sensor</item>
+        <item>impact_sensor</item>
+        <item>camera</item>
+    </string-array>
+</resources>

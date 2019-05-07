@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="facebook_application_id" translatable="false">2164791903609259</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb2164791903609259</string>
+    <string name="app_name">SafeAuto</string>
+    <string name="title_settings">Configuraciones</string>
+    <!--Notification service -->
+    <string name="normal_channel_id" translatable="false">channel.id.notification.normal</string>
+    <string name="normal_channel_name" translatable="false">Alerta normal</string>
+    <!--Botton Navigation Drawer -->
+    <string name="title_home">Inicio</string>
+    <string name="title_location">GPS</string>
+    <string name="title_camera">Cámara</string>
+    <string name="title_calls">Llamadas</string>
+    <string name="title_gallery">Galeria</string>
+
+    <!-- LoginActivity -->
+    <string name="profile_public_info">Datos publicos</string>
+    <string name="profile_update">Actualizar</string>
+    <string name="txt_name">Nombre</string>
+    <string name="txt_email">Correo Electronico</string>
+    <string name="txt_lastname">Apellidos</string>
+    <string name="txt_phone">Telefono</string>
+    <string name="txt_model_car">Modelo del Vehiculo</string>
+    <string name="txt_plaque">Placas</string>
+    <string name="txt_token_arduino">Mac Arduino</string>
+    <string name="txt_provider">Proveedor</string>
+    <string name="txt_create_account">Crear Cuenta</string>
+
+    <!--Settings Fragment -->
+    <string name="settings_profile">Peril</string>
+    <string name="settings_Car">Vehiculo</string>
+    <string name="settings_notifications">Noitificaciones</string>
+    <string name="settings_functions">Funciones</string>
+    <string name="settings_help">Ayuda</string>
+    <string name="settings_about">Acerca de</string>
+    <string name="settings_signout">Cerrar sesión</string>
+
+    <!--HomeFragment-->
+    <string name="statusOFF">Alarma apagada</string>
+    <string name="statusON">Alarma encendida</string>
+    <string name="txt_alarm">Alarma</string>
+
+    <!--AboutFragment-->
+    <string name="about_version">V. 1.0.2.1</string>
+    <string name="about_developers">DESARROLLADORES:</string>
+    <string name="about_developer1">Germán Macías</string>
+    <string name="about_developer2">Leonel García</string>
+    <string name="about_developer3">Angel Herrera</string>
+    <string name="about_developer4">Rafael Andrade</string>
+    <string name="about_copyrigth">Copyright ©  Todos los Derechos Reservados</string>
+
+    <!-- Auth method picker -->
+    <string name="fui_sign_in_with_facebook">Iniciar sesion con Facebook</string>
+    <string name="fui_sign_in_with_email">Iniciar sesión con email</string>
+
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="title_activity_maps" translatable="false">Map</string>
+    <string name="txt_sensor_impact">Impacto</string>
+    <string name="txt_sensor_weigth">peso</string>
+    <string name="txt_login_account">Inciar sesión</string>
+
+    <!--Notification Fragment  -->
+    <string name="notifications_select">Seleccionar</string>
+    <string name="topicSensorWeight">Sensor de peso</string>
+    <string name="topicSensorImpact">Sensor de impacto</string>
+    <string name="topicSensorCamera">Camara</string>
+    <string name="subscribe">SUSCRIBIR</string>
+    <string name="unsuscribe">DESUSCRIBIR</string>
+    <string name="topics">topicos</string>
+
+    <!--Call Fragment -->
+    <string name="call_emergency">Llamada de emergencia</string>
+    <string name="choose_number">Escoge otro numero</string>
+
+    <!--Help Fragment -->
+    <string name="help_alarm">No puedo iniciar la alarma</string>
+    <string name="help_close">La aplicacion se detiene</string>
+
+
+    <!--Functions Fragment -->
+    <string name="functions_alarm_off">Activar/Desactivar Alarma</string>
+    <string name="functions_contact">Contactar servicios de emergencia</string>
+    <string name="functions_locate">Localiza tu vehículo</string>
+
+    <!--Toast Message -->
+    <string name="toast_welcome_user">Bienvenido...</string>
+    <string name="toast_failed_firebaseUI">Ocurrio un error, intenta de nuevo</string>
+    <string name="toast_new_user">Registro exitoso</string>
+    <string name="toast_failed_permission_call">Permiso denegado</string>
+
+
+</resources>

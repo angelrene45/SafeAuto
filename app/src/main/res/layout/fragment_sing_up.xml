@@ -1,14 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginFragments.SignUpFragment">
+    android:background="@drawable/fondologin"
+    >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp">
 
-</FrameLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="35dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:layout_gravity="center"
+                    android:id="@+id/button_cerrar"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/ic_login_back_black"
+                    />
+
+            </LinearLayout>
+
+            <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:inputType="text"
+            android:ems="10"
+            android:drawablePadding="12dp"
+            android:padding="8dp"
+            android:hint="@string/txt_name"
+            android:textColorHint="@color/colorDefaultWhite"
+                android:textColor="@color/colorDefaultWhite"
+            android:maxLines="1"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="25dp"
+            android:drawableStart="@drawable/ic_login_password_black"
+            />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#f9d7db"/>
+
+            <EditText
+                android:id="@+id/et_lastname"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:drawablePadding="12dp"
+                android:padding="8dp"
+                android:hint="@string/txt_lastname"
+                android:textColorHint="@color/colorDefaultWhite"
+                android:textColor="@color/colorDefaultWhite"
+                android:maxLines="1"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="4dp"
+                android:drawableLeft="@drawable/ic_login_password_black"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#f9d7db"/>
+
+
+            <EditText
+                android:id="@+id/et_phone"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:inputType="text"
+                android:ems="10"
+                android:drawablePadding="12dp"
+                android:padding="8dp"
+                android:hint="@string/txt_phone"
+                android:textColorHint="@color/colorDefaultWhite"
+                android:textColor="@color/colorDefaultWhite"
+                android:maxLines="1"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="4dp"
+                android:drawableStart="@drawable/ic_login_password_black"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#f9d7db"/>
+
+            <EditText
+                android:id="@+id/et_car_model"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:drawablePadding="12dp"
+                android:padding="8dp"
+                android:hint="@string/txt_model_car"
+                android:textColorHint="@color/colorDefaultWhite"
+                android:textColor="@color/colorDefaultWhite"
+                android:maxLines="1"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="4dp"
+                android:drawableStart="@drawable/ic_login_password_black"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#f9d7db"/>
+
+            <EditText
+                android:id="@+id/et_plaque"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:drawablePadding="12dp"
+                android:padding="8dp"
+                android:hint="@string/txt_plaque"
+                android:textColorHint="@color/colorDefaultWhite"
+                android:textColor="@color/colorDefaultWhite"
+                android:maxLines="1"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="4dp"
+                android:drawableStart="@drawable/ic_login_password_black"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#f9d7db"/>
+
+            <EditText
+                android:id="@+id/et_mac_arduino"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:drawablePadding="12dp"
+                android:padding="8dp"
+                android:hint="@string/txt_token_arduino"
+                android:textColorHint="@color/colorDefaultWhite"
+                android:textColor="@color/colorDefaultWhite"
+                android:maxLines="1"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="4dp"
+                android:drawableStart="@drawable/ic_login_password_black"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#f9d7db"/>
+
+            <Button
+                android:id="@+id/button_create_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_button_design"
+                android:text="@string/txt_create_account"
+                android:textColor="#ffffff"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                style="@style/Base.TextAppearance.AppCompat.Body1"
+                />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    </LinearLayout>
+
+</RelativeLayout>
