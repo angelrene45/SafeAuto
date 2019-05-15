@@ -91,6 +91,16 @@
     <string name="functions_contact">Contact emergency services</string>
     <string name="functions_locate">Locate your car</string>
 
+    <!--Gallery Fragment -->
+    <string name="takePhoto">Take photo</string>
+
+    <!--Camera -->
+    <string name="txt_video_stream">Live Stream</string>
+    <string name="statusVideoOFF">Live Stream is off</string>
+    <string name="statusVideoON">Live Stream is on</string>
+    <string name="txt_reload_tab">Reload tab please</string>
+    <string name="reload">Reload</string>
+
     <!--Toast Message -->
     <string name="toast_welcome_user">Welcome...</string>
     <string name="toast_failed_firebaseUI">Something failed, try again please</string>

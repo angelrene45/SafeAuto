@@ -83,6 +83,16 @@
     <string name="functions_contact">Contactar servicios de emergencia</string>
     <string name="functions_locate">Localiza tu vehículo</string>
 
+    <!--Gallery Fragment -->
+    <string name="takePhoto">Tomar foto</string>
+
+    <!--Camera -->
+    <string name="txt_video_stream">Video</string>
+    <string name="statusVideoOFF">Live Stream esta apagado</string>
+    <string name="statusVideoON">Live Stream esta encendido</string>
+    <string name="txt_reload_tab">Recarge porfavor</string>
+    <string name="reload">Recargar</string>
+
     <!--Toast Message -->
     <string name="toast_welcome_user">Bienvenido...</string>
     <string name="toast_failed_firebaseUI">Ocurrio un error, intenta de nuevo</string>
